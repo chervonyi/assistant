@@ -3,6 +3,11 @@
 
 
     <color name="fontWhiteColor">#FFF</color>
+    
+    <color name="activitiesColor">#FF5800</color>
+    <color name="tipsColor">#1482E0</color>
+    <color name="reminderColor">#1482E0</color>
+    <color name="tutorialColor">#FFCB1C</color>
 
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
