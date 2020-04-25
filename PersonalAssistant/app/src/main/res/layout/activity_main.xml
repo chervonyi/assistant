@@ -34,11 +34,20 @@
                 android:id="@+id/dateTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:fontFamily="@font/ptsans_regular"
                 android:textColor="@color/fontWhiteColor"
                 android:text="21 April, 2020"/>
 
+
+            <LinearLayout
+                android:id="@+id/blockLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:divider="@drawable/block_linearlayout_divider"
+                android:showDividers="middle"/>
         </LinearLayout>
 
     </ScrollView>

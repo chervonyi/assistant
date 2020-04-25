@@ -2,7 +2,14 @@
 <resources>
     <dimen name="mainScrollSidePadding">20dp</dimen>
     <dimen name="mainScrollTopPadding">30dp</dimen>
+
+    <dimen name="blockListDivider">18dp</dimen>
+
     <dimen name="blockPanelCornerRadius">20dp</dimen>
-    <dimen name="blockPadding">16dp</dimen>
-    <dimen name="blockImageSize">40dp</dimen>
+    <dimen name="blockPadding">20dp</dimen>
+    <dimen name="blockImageSize">24dp</dimen>
+    <dimen name="blockTitleTextSize">18sp</dimen>
+    <dimen name="blockMainTextSize">18sp</dimen>
+
+
 </resources>
