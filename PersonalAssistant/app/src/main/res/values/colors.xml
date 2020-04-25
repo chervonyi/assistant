@@ -5,6 +5,8 @@
     <color name="fontWhiteColor">#FFF</color>
     <color name="fontBlackColor">#000</color>
 
+    <color name="functionButtonColor">#000</color>
+
     <color name="activitiesColor">#FF5800</color>
     <color name="tipsColor">#1482E0</color>
     <color name="reminderColor">#1482E0</color>

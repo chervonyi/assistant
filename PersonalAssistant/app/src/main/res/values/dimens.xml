@@ -11,5 +11,10 @@
     <dimen name="blockTitleTextSize">18sp</dimen>
     <dimen name="blockMainTextSize">18sp</dimen>
 
+    <dimen name="functionButtonSize">65dp</dimen>
+    <dimen name="functionButtonPadding">18dp</dimen>
+    <dimen name="functionButtonCornerRadius">16dp</dimen>
+    <dimen name="functionButtonTextSize">16sp</dimen>
+
 
 </resources>

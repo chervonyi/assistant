@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@android:color/transparent">
+
+    <ImageButton
+        android:id="@+id/functionButtonIcon"
+        android:layout_width="@dimen/functionButtonSize"
+        android:layout_height="@dimen/functionButtonSize"
+        android:src="@drawable/ic_quote"
+        android:scaleType="fitCenter"
+        android:padding="@dimen/functionButtonPadding"
+        android:background="@drawable/function_button_background"/>
+
+    <TextView
+        android:id="@+id/functionButtonTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Quote"
+        android:textSize="@dimen/functionButtonTextSize"
+        android:fontFamily="@font/ptsans_regular"
+        android:textAlignment="center"
+        android:textColor="@color/fontWhiteColor"/>
+</LinearLayout>
