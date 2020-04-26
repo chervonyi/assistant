@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 
@@ -35,7 +36,7 @@ class FunctionButton: LinearLayout {
     }
     //endregion
 
-    private lateinit var functionImageButton: ImageButton
+    private lateinit var functionImageButton: ImageView
     private lateinit var functionButtonTitle: TextView
 
     private fun initializeView(context: Context?) {
