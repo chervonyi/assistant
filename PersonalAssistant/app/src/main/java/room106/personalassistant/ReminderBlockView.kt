@@ -3,57 +3,127 @@ package room106.personalassistant
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.util.AttributeSet
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
-import android.widget.Button
-import android.widget.LinearLayout
+import android.view.View.OnClickListener
+import android.view.View.OnFocusChangeListener
+import android.view.inputmethod.EditorInfo
+import android.widget.*
+import android.widget.TextView.OnEditorActionListener
+import androidx.core.widget.addTextChangedListener
 
-class ReminderBlockView: LinearLayout {
 
-    //region Constructors
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
-        initializeView(context)
-    }
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
-        initializeView(context)
-    }
-    //endregion
+class ReminderBlockView(context: Context) : LinearLayout(context) {
 
-    private lateinit var buttonSetTime: Button
-    private lateinit var buttonSetDate: Button
+    private var mImageButton: ImageButton
+    private var mMessageEditText: EditText
+    private var mHintView: TextView
+    private lateinit var mButtonSetTime: Button
+    private lateinit var mButtonSetDate: Button
 
-    private fun initializeView(context: Context?) {
-        View.inflate(context, R.layout.reminder_block_layout, this)
-
-        buttonSetTime = findViewById(R.id.reminderBlockButtonSetTime)
-        buttonSetDate = findViewById(R.id.reminderBlockButtonSetDate)
-
-        buttonSetTime.setOnClickListener(onClickSetTimeListener)
-        buttonSetDate.setOnClickListener(onClickSetDateListener)
-    }
-
-    constructor(context: Context?): super(context) {
-        initializeView(context)
-
-    }
+    private var timeSelected = false
 
     private val onClickSetTimeListener = OnClickListener {
         val timePickerFragment = TimePickerFragment()
         timePickerFragment.setOnTimeSetListener(TimePickerDialog.OnTimeSetListener { timePicker, i, i2 ->
-            buttonSetTime.text = "$i:$i2"
+            // TODO - Save selected time using properly formatting
+            mButtonSetTime.text = "$i:$i2"
+            timeSelected = true
+            checkReminderInfo()
         })
+
         timePickerFragment.show((context as MainActivity).supportFragmentManager, "timePicker")
     }
 
     private val onClickSetDateListener = OnClickListener {
         val datePickerFragment = DatePickerFragment()
         datePickerFragment.setOnDateSetListener(DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
-            buttonSetDate.text = "$i:$i2:$i3"
+            // TODO - Save selected date using properly formatting
+            mButtonSetDate.text = "$i:$i2:$i3"
+            checkReminderInfo()
         })
+
         datePickerFragment.show((context as MainActivity).supportFragmentManager, "timePicker")
     }
+
+    private val onClickReminderSubmitListener = OnClickListener {
+        // TODO - Implement
+    }
+
+    init {
+        View.inflate(context, R.layout.reminder_block_layout, this)
+
+        mButtonSetTime = findViewById(R.id.reminderBlockButtonSetTime)
+        mButtonSetDate = findViewById(R.id.reminderBlockButtonSetDate)
+        mImageButton = findViewById(R.id.reminderBlockImage)
+        mMessageEditText = findViewById(R.id.reminderBlockMessageView)
+        mHintView = findViewById(R.id.reminderBlockHintView)
+
+        mButtonSetTime.setOnClickListener(onClickSetTimeListener)
+        mButtonSetDate.setOnClickListener(onClickSetDateListener)
+        mImageButton.setOnClickListener(onClickReminderSubmitListener)
+
+        //region EditText Listeners
+        mMessageEditText.onFocusChangeListener =
+            OnFocusChangeListener { v, hasFocus ->
+                mMessageEditText.isCursorVisible = hasFocus
+            }
+
+        mMessageEditText.setOnClickListener {
+            mMessageEditText.isCursorVisible = true
+        }
+
+        mMessageEditText.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                mMessageEditText.isCursorVisible = false
+                
+            }
+            false
+        })
+        
+        mMessageEditText.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0!!.isNotEmpty()) {
+                    mMessageEditText.backgroundTintList = context.resources.getColorStateList(R.color.reminderColor, context.theme)
+                } else {
+                    mMessageEditText.backgroundTintList = context.resources.getColorStateList(R.color.reminderBlockInactiveColor, context.theme)
+                }
+
+                checkReminderInfo()
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+        })
+        //endregion
+    }
+
+    private fun checkReminderInfo() {
+        var reminderIsReady = true
+
+        if (!timeSelected || mMessageEditText.text.isEmpty()) {
+            reminderIsReady = false
+        }
+
+        // TODO - Add check if selected date and selected time is not past
+        if (timeSelected) {
+            // Selected date & time is FUTURE
+            mButtonSetTime.setBackgroundResource(R.drawable.reminder_picker_button_active)
+        } else {
+            // Selected date & time is PAST
+            reminderIsReady = false
+            mButtonSetTime.setBackgroundResource(R.drawable.reminder_picker_button)
+        }
+
+        if (reminderIsReady) {
+            mImageButton.setImageResource(R.drawable.ic_reminder_blue)
+            mImageButton.alpha = 1f
+        } else {
+            mImageButton.setImageResource(R.drawable.ic_reminder_black)
+            mImageButton.alpha = 0.1f
+        }
+    }
+
+
 }

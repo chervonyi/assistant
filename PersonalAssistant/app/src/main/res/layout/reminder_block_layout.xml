@@ -7,15 +7,17 @@
     android:background="@drawable/block_panel"
     android:gravity="center">
 
-    <ImageView
-        android:id="@+id/functionBlockImage"
+    <ImageButton
+        android:id="@+id/reminderBlockImage"
         android:layout_marginTop="10dp"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/ic_reminder_black"
-        android:alpha="0.1"/>
+        android:alpha="0.1"
+        android:background="@null"/>
 
     <EditText
+        android:id="@+id/reminderBlockMessageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -24,7 +26,8 @@
         android:textColor="@color/fontBlackColor"
         android:imeOptions="actionDone"
         android:inputType="textCapSentences"
-        android:backgroundTint="@color/reminderBlockInactiveColor"/>
+        android:backgroundTint="@color/reminderBlockInactiveColor"
+        android:cursorVisible="false"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,6 +67,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/reminderBlockHintView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"

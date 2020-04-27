@@ -17,7 +17,12 @@ class DatePickerFragment: DialogFragment() {
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         // Create a new instance of DatePickerDialog and return it
-        return DatePickerDialog(context!!, onDateSetListener, year, month, day)
+        val datePicker = DatePickerDialog(context!!, onDateSetListener, year, month, day)
+
+        // Disable past dates:
+        datePicker.datePicker.minDate = System.currentTimeMillis() - 1000
+
+        return datePicker
     }
 
     private var onDateSetListener: DatePickerDialog.OnDateSetListener? = null
