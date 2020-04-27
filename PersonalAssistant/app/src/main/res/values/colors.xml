@@ -11,8 +11,10 @@
     <color name="tipsColor">#1482E0</color>
     <color name="reminderColor">#1482E0</color>
     <color name="tutorialColor">#FFCB1C</color>
+    <color name="reminderBlockInactiveColor">#1A000000</color>
+    <color name="reminderBlockHintColor">#66000000</color>
 
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#1482E0</color>
 </resources>

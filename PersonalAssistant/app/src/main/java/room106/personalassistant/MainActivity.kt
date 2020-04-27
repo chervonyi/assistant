@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickReminderFunctionButton(v: View) {
-        // TODO - Create ReminderBlockView
+        val reminderBlock = ReminderBlockView(this)
+        blockLinearLayout.addView(reminderBlock)
     }
 }
