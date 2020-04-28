@@ -1,5 +1,6 @@
 package room106.personalassistant
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -11,24 +12,48 @@ import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import android.widget.TextView.OnEditorActionListener
-import androidx.core.widget.addTextChangedListener
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class ReminderBlockView(context: Context) : LinearLayout(context) {
 
     private var mImageButton: ImageButton
-    private var mMessageEditText: EditText
+    private lateinit var mMessageEditText: EditText
     private var mHintView: TextView
     private lateinit var mButtonSetTime: Button
     private lateinit var mButtonSetDate: Button
 
     private var timeSelected = false
 
+    private val MONTHS = ArrayList<String>().apply {
+        add("January")
+        add("February")
+        add("Marh")
+        add("April")
+        add("May")
+        add("June")
+        add("July")
+        add("August")
+        add("September")
+        add("October")
+        add("November")
+        add("December")
+    }
+
+    @SuppressLint("DefaultLocale")
     private val onClickSetTimeListener = OnClickListener {
         val timePickerFragment = TimePickerFragment()
         timePickerFragment.setOnTimeSetListener(TimePickerDialog.OnTimeSetListener { timePicker, i, i2 ->
-            // TODO - Save selected time using properly formatting
-            mButtonSetTime.text = "$i:$i2"
+
+            val isPM: Boolean = i >= 12
+            mButtonSetTime.text = String.format(
+                "%02d:%02d %s",
+                if (i == 12 || i == 0) 12 else i % 12,
+                i2,
+                if (isPM) "pm" else "am"
+            )
+
             timeSelected = true
             checkReminderInfo()
         })
@@ -36,11 +61,13 @@ class ReminderBlockView(context: Context) : LinearLayout(context) {
         timePickerFragment.show((context as MainActivity).supportFragmentManager, "timePicker")
     }
 
+    @SuppressLint("SetTextI18n")
     private val onClickSetDateListener = OnClickListener {
         val datePickerFragment = DatePickerFragment()
         datePickerFragment.setOnDateSetListener(DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
-            // TODO - Save selected date using properly formatting
-            mButtonSetDate.text = "$i:$i2:$i3"
+            val monthName = MONTHS[i2]
+
+            mButtonSetDate.text = "$i3 $monthName"
             checkReminderInfo()
         })
 
@@ -48,7 +75,10 @@ class ReminderBlockView(context: Context) : LinearLayout(context) {
     }
 
     private val onClickReminderSubmitListener = OnClickListener {
-        // TODO - Implement
+
+        (context as MainActivity).onClickSubmitReminder(mMessageEditText.text.toString(),
+                mButtonSetDate.text.toString(),
+                mButtonSetTime.text.toString())
     }
 
     init {
