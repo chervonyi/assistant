@@ -17,10 +17,10 @@
 
     <TextView
         android:id="@+id/functionButtonTitle"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:text="Quote"
+        android:text="Some Long Text"
         android:textSize="@dimen/functionButtonTextSize"
         android:fontFamily="@font/ptsans_regular"
         android:textAlignment="center"
