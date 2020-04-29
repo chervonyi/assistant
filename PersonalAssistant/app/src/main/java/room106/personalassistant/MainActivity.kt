@@ -16,6 +16,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var blockLinearLayout: LinearLayout
 
+    // Database
+    private lateinit var database: Database
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,14 +30,17 @@ class MainActivity : AppCompatActivity() {
 
         blockLinearLayout.addView(block1)
         blockLinearLayout.addView(block2)
+
+        database = Database(this)
+    }
+
+    fun addFunctionBlockView(blockView: FunctionBlockView) {
+        // TODO - add using some animation
+        blockLinearLayout.addView(blockView)
     }
 
     fun onClickQuoteFunctionButton(v: View) {
-        val quoteBlock = FunctionBlockView(this, R.drawable.ic_quotes_black, "Let everything happen to you\n" +
-                "Beauty and terror\n" +
-                "Just keep going\n" +
-                "No feeling is final", "Rainer Maria Rilke")
-        blockLinearLayout.addView(quoteBlock)
+        database.addRandomQuote()
     }
 
     fun onClickBookFunctionButton(v: View) {
