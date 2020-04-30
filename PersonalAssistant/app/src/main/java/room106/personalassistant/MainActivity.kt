@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         blockLinearLayout.addView(block1)
         blockLinearLayout.addView(block2)
 
-        database = Database(this)
+        database = Database(this, "zNPLWO7TmYuap4IU3vXN")
     }
 
     fun addFunctionBlockView(blockView: FunctionBlockView) {
