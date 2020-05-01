@@ -44,23 +44,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickBookFunctionButton(v: View) {
-        val bookBlock = FunctionBlockView(this, R.drawable.ic_book_black, "1984", "George Orwell")
-        blockLinearLayout.addView(bookBlock)
+        database.addRandomBook()
     }
 
     fun onClickShowFunctionButton(v: View) {
-        val showBlock = FunctionBlockView(this, R.drawable.ic_show_black, "The Handmaid's Tale", "3 seasons")
-        blockLinearLayout.addView(showBlock)
+        database.addRandomShow()
     }
 
     fun onClickFactFunctionButton(v: View) {
-        val factBlock = FunctionBlockView(this, R.drawable.ic_question_black, "Burj Khalifa is the tallest tower in the world and it's one of the top attractions to visit in Dubai.", null)
-        blockLinearLayout.addView(factBlock)
+        database.addRandomFact()
     }
 
     fun onClickMovieFunctionButton(v: View) {
-        val movieBlock = FunctionBlockView(this, R.drawable.ic_movie_black, "The Imitation Game", "2014")
-        blockLinearLayout.addView(movieBlock)
+        database.addRandomMovie()
     }
 
     fun onClickReminderFunctionButton(v: View) {
