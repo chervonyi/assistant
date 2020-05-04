@@ -2,6 +2,7 @@ package room106.personalassistant
 
 import android.content.Context
 import android.util.Log
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -37,12 +38,21 @@ class Database(private val context: Context, val USER_ID: String) {
                         val flow = userResult.get("flow") as ArrayList<*>
 
                         // Remove quotes that has been found in user current flow (to avoid possible duplicates):
+
+                        val quotesInFlow = ArrayList<String>()
+                        for (block  in flow) {
+                            if ((block as HashMap<*, *>)["type"] == "quote") {
+                                quotesInFlow.add(block["id"] as String)
+                            }
+                        }
+
                         val toRemove: MutableList<Quote> = ArrayList()
                         for (quote in quotes) {
-                            if (flow.contains(quote.id)) {
+                            if (quotesInFlow.contains(quote.id)) {
                                 toRemove.add(quote)
                             }
                         }
+
                         quotes.removeAll(toRemove)
 
                         // Select some random quote
@@ -50,7 +60,22 @@ class Database(private val context: Context, val USER_ID: String) {
                             val randomQuote = quotes[Random.nextInt(quotes.size)]
 
                             // Append user flow with selected random quote (Database):
-                            userDocument.update("flow", FieldValue.arrayUnion(randomQuote.id))
+                            // Append quote ID
+//                            userDocument.update("flow", FieldValue.arrayUnion(randomQuote.id))
+
+
+                            // Append quote REFERENCE
+//                            val randomQuoteRef = db.collection("quotes").document(randomQuote.id)
+//                            userDocument.update("flow", FieldValue.arrayUnion(randomQuoteRef))
+
+                            // Append quote Map
+                            val quoteMap = hashMapOf(
+                                "type" to "quote",
+                                "id" to randomQuote.id,
+                                "quote" to randomQuote.text,
+                                "author" to randomQuote.author
+                            )
+                            userDocument.update("flow", FieldValue.arrayUnion(quoteMap))
 
                             // Add new FunctionBlockView to flow
                             val blockView = FunctionBlockView(context, R.drawable.ic_quotes_black, randomQuote.text, randomQuote.author)
@@ -88,9 +113,17 @@ class Database(private val context: Context, val USER_ID: String) {
                         val flow = userResult.get("flow") as ArrayList<*>
 
                         // Remove books that has been found in user current flow (to avoid possible duplicates):
+
+                        val booksInFlow = ArrayList<String>()
+                        for (block in flow) {
+                            if ((block as HashMap<*, *>)["type"] == "book") {
+                                booksInFlow.add(block["id"] as String)
+                            }
+                        }
+
                         val toRemove: MutableList<Book> = ArrayList()
                         for (book in books) {
-                            if (flow.contains(book.id)) {
+                            if (booksInFlow.contains(book.id)) {
                                 toRemove.add(book)
                             }
                         }
@@ -101,7 +134,13 @@ class Database(private val context: Context, val USER_ID: String) {
                             val randomBook = books[Random.nextInt(books.size)]
 
                             // Append user flow with selected random book (Database):
-                            userDocument.update("flow", FieldValue.arrayUnion(randomBook.id))
+                            val bookMap = hashMapOf(
+                                "type" to "book",
+                                "id" to randomBook.id,
+                                "title" to randomBook.title,
+                                "author" to randomBook.author
+                            )
+                            userDocument.update("flow", FieldValue.arrayUnion(bookMap))
 
                             // Add new FunctionBlockView to flow
                             val blockView = FunctionBlockView(context, R.drawable.ic_book_black, randomBook.title, randomBook.author)
@@ -138,9 +177,17 @@ class Database(private val context: Context, val USER_ID: String) {
                         val flow = userResult.get("flow") as ArrayList<*>
 
                         // Remove shows that has been found in user current flow (to avoid possible duplicates):
+
+                        val showsInFlow = ArrayList<String>()
+                        for (block in flow) {
+                            if ((block as HashMap<*, *>)["type"] == "show") {
+                                showsInFlow.add(block["id"] as String)
+                            }
+                        }
+
                         val toRemove: MutableList<Show> = ArrayList()
                         for (show in shows) {
-                            if (flow.contains(show.id)) {
+                            if (showsInFlow.contains(show.id)) {
                                 toRemove.add(show)
                             }
                         }
@@ -151,7 +198,13 @@ class Database(private val context: Context, val USER_ID: String) {
                             val randomShow = shows[Random.nextInt(shows.size)]
 
                             // Append user flow with selected random show (Database):
-                            userDocument.update("flow", FieldValue.arrayUnion(randomShow.id))
+                            val showMap = hashMapOf(
+                                "type" to "show",
+                                "id" to randomShow.id,
+                                "title" to randomShow.title,
+                                "description" to randomShow.description
+                            )
+                            userDocument.update("flow", FieldValue.arrayUnion(showMap))
 
                             // Add new FunctionBlockView to flow
                             val blockView = FunctionBlockView(context, R.drawable.ic_show_black, randomShow.title, randomShow.description)
@@ -188,9 +241,16 @@ class Database(private val context: Context, val USER_ID: String) {
                         val flow = userResult.get("flow") as ArrayList<*>
 
                         // Remove facts that has been found in user current flow (to avoid possible duplicates):
+                        val factsInFlow = ArrayList<String>()
+                        for (block in flow) {
+                            if ((block as HashMap<*, *>)["type"] == "fact") {
+                                factsInFlow.add(block["id"] as String)
+                            }
+                        }
+
                         val toRemove: MutableList<Fact> = ArrayList()
                         for (fact in facts) {
-                            if (flow.contains(fact.id)) {
+                            if (factsInFlow.contains(fact.id)) {
                                 toRemove.add(fact)
                             }
                         }
@@ -201,7 +261,12 @@ class Database(private val context: Context, val USER_ID: String) {
                             val randomFact = facts[Random.nextInt(facts.size)]
 
                             // Append user flow with selected random fact (Database):
-                            userDocument.update("flow", FieldValue.arrayUnion(randomFact.id))
+                            val factMap = hashMapOf(
+                                "type" to "fact",
+                                "id" to randomFact.id,
+                                "text" to randomFact.text
+                            )
+                            userDocument.update("flow", FieldValue.arrayUnion(factMap))
 
                             // Add new FunctionBlockView to flow
                             val blockView = FunctionBlockView(context, R.drawable.ic_question_black, randomFact.text, null)
@@ -239,9 +304,16 @@ class Database(private val context: Context, val USER_ID: String) {
                         val flow = userResult.get("flow") as ArrayList<*>
 
                         // Remove movies that has been found in user current flow (to avoid possible duplicates):
+                        val moviesInFlow = ArrayList<String>()
+                        for (block in flow) {
+                            if ((block as HashMap<*, *>)["type"] == "movie") {
+                                moviesInFlow.add(block["id"] as String)
+                            }
+                        }
+
                         val toRemove: MutableList<Movie> = ArrayList()
                         for (movie in movies) {
-                            if (flow.contains(movie.id)) {
+                            if (moviesInFlow.contains(movie.id)) {
                                 toRemove.add(movie)
                             }
                         }
@@ -252,7 +324,13 @@ class Database(private val context: Context, val USER_ID: String) {
                             val randomMovie = movies[Random.nextInt(movies.size)]
 
                             // Append user flow with selected random movie (Database):
-                            userDocument.update("flow", FieldValue.arrayUnion(randomMovie.id))
+                            val movieMap = hashMapOf(
+                                "type" to "movie",
+                                "id" to randomMovie.id,
+                                "title" to randomMovie.title,
+                                "description" to randomMovie.description
+                            )
+                            userDocument.update("flow", FieldValue.arrayUnion(movieMap))
 
                             // Add new FunctionBlockView to flow
                             val blockView = FunctionBlockView(context, R.drawable.ic_movie_black, randomMovie.title, randomMovie.description)
@@ -264,5 +342,63 @@ class Database(private val context: Context, val USER_ID: String) {
                     }
                 }
             }
+    }
+
+    fun readFlow() {
+
+        db.collection("users").document(USER_ID).get().addOnSuccessListener { userResult ->
+            if (userResult != null) {
+                // User has been found
+
+                // Read user flow
+                val flow = userResult.get("flow") as ArrayList<*>
+
+                for (block  in flow) {
+
+                    when ((block as HashMap<*, *>)["type"]) {
+                        "quote" -> {
+                            val id = block["id"] as String
+                            val text = block["quote"] as String
+                            val author = block["author"] as String
+                            val blockView = Quote(id, text, author).generateFunctionBlockView(context)
+                            (context as MainActivity).addFunctionBlockView(blockView)
+                        }
+
+                        "book" -> {
+                            val id = block["id"] as String
+                            val title = block["title"] as String
+                            val author = block["author"] as String
+                            val blockView = Book(id, title, author).generateFunctionBlockView(context)
+                            (context as MainActivity).addFunctionBlockView(blockView)
+                        }
+
+                        "show" -> {
+                            val id = block["id"] as String
+                            val title = block["title"] as String
+                            val description = block["description"] as String
+                            val blockView = Show(id, title, description).generateFunctionBlockView(context)
+                            (context as MainActivity).addFunctionBlockView(blockView)
+                        }
+
+                        "fact" -> {
+                            val id = block["id"] as String
+                            val text = block["text"] as String
+                            val blockView = Fact(id, text).generateFunctionBlockView(context)
+                            (context as MainActivity).addFunctionBlockView(blockView)
+                        }
+
+                        "movie" -> {
+                            val id = block["id"] as String
+                            val title = block["title"] as String
+                            val description = block["description"] as String
+                            val blockView = Movie(id, title, description).generateFunctionBlockView(context)
+                            (context as MainActivity).addFunctionBlockView(blockView)
+                        }
+                    }
+                }
+            } else {
+                Log.d(TAG, "User not found")
+            }
+        }
     }
 }

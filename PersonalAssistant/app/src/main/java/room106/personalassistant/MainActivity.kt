@@ -29,15 +29,19 @@ class MainActivity : AppCompatActivity() {
         val block2 = SimpleBlockView(this, R.drawable.ic_question, R.drawable.block_image_background_tips, R.color.tipsColor, "Tips", "Don't use your phone before you get off the bed.")
 
         blockLinearLayout.addView(block1)
-        blockLinearLayout.addView(block2)
+//        blockLinearLayout.addView(block2)
 
         database = Database(this, "zNPLWO7TmYuap4IU3vXN")
+
+        database.readFlow()
     }
+
 
     fun addFunctionBlockView(blockView: FunctionBlockView) {
         // TODO - add using some animation
         blockLinearLayout.addView(blockView)
     }
+
 
     fun onClickQuoteFunctionButton(v: View) {
         database.addRandomQuote()
