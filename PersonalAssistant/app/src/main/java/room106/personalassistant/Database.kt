@@ -401,4 +401,10 @@ class Database(private val context: Context, val USER_ID: String) {
             }
         }
     }
+
+    fun clearFlow() {
+        // To remove all items in array you should change type of field as NON-ARRAY (e.g - string), and then call arrayRemove()
+        db.collection("users").document(USER_ID).update("flow", "test")
+        db.collection("users").document(USER_ID).update("flow", FieldValue.arrayRemove())
+    }
 }
