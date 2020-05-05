@@ -8,6 +8,7 @@ import android.text.SpannableStringBuilder
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.bold
 
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     // Database
     private lateinit var database: Database
+    private lateinit var notificationSystem: NotificationSystem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 //        blockLinearLayout.addView(block2)
 
         database = Database(this, "zNPLWO7TmYuap4IU3vXN")
+        notificationSystem = NotificationSystem(this)
 
         database.readFlow()
     }
@@ -41,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         // TODO - add using some animation
         blockLinearLayout.addView(blockView)
     }
-
 
     fun onClickQuoteFunctionButton(v: View) {
         database.addRandomQuote()
@@ -73,6 +75,8 @@ class MainActivity : AppCompatActivity() {
 
         val reminderText = "\"$message\" is set up for $date $time"
         val reminderBlock = SimpleBlockView(this, R.drawable.ic_reminder, R.drawable.block_image_background_reminder, R.color.reminderColor, "Reminder", reminderText)
+
+        notificationSystem.showNotification(message)
 
         Handler().postDelayed({
             blockLinearLayout.addView(reminderBlock)
