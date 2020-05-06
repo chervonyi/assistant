@@ -2,17 +2,19 @@ package room106.personalassistant
 
 import android.content.Context
 import android.util.Log
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.ktx.Firebase
 import room106.personalassistant.models.*
 import kotlin.random.Random
+
 
 class Database(private val context: Context, val USER_ID: String) {
 
     private val TAG = "Database"
     private val db = Firebase.firestore
+
 
     fun addRandomQuote() {
         db.collection("quotes")
@@ -407,4 +409,6 @@ class Database(private val context: Context, val USER_ID: String) {
         db.collection("users").document(USER_ID).update("flow", "test")
         db.collection("users").document(USER_ID).update("flow", FieldValue.arrayRemove())
     }
+
+
 }
